@@ -43,7 +43,6 @@ const LoginForm = (props) => {
                     </Form>
                 </Col>
             </Row>
-            <p>Login Form</p>
         </Container>
     )
 }
