@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from "axios";
 import styled from 'styled-components';
-import SignUpForm from "./SignUpForm";
 
 const LogInWrapperDiv = styled.div`
     margin-top: 0;
@@ -113,6 +112,9 @@ const SubmitButton = styled.button`
 
 const LoginForm = (props) => {
 
+    const history = useHistory();
+    const { getUser } = props;
+
     const [credentials, setCredentials] = useState({
         username: "",
         password: ""
@@ -124,12 +126,13 @@ const LoginForm = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        getUser(credentials);
         axios
             .post("http://localhost:5000/api/users/login/", credentials)
             .then((res) => {
-                console.log("login res", res);
+                console.log("login res =", res.data.message);
                 localStorage.setItem("token", res.data.token);
-                props.history.push("/");
+                history.push("/success");
             })
         .catch(err => console.log(err)) 
     }
@@ -146,7 +149,7 @@ const LoginForm = (props) => {
                         <Input type="text"
                         name="username"
                         id="username"
-                        value={SignUpForm.username}
+                        value={credentials.username}
                         required
                         onChange={changeHandler} />
                     </FormGroup>
@@ -155,12 +158,13 @@ const LoginForm = (props) => {
                         <Input type="password"
                         name="password"
                         id="password"
-                        value = {SignUpForm.password}
+                        value = {credentials.password}
                         onChange={changeHandler} />
                     </FormGroup>
                     <SubmitButton type = "submit">Login</SubmitButton>
                 </Form>
         </LogInWrapperDiv>
+        
     )
 }
 
