@@ -27,7 +27,7 @@ const FormHeaderDiv = styled.div`
 const SignUpTitle = styled.h1`
     margin-right: auto;
     font-family: Source Sans Pro, sans-serif;
-    font-size: 3.4rem;
+    font-size: 3rem;
     color: #ffffff;
     font-weight: 600;
     line-height: 1.65;
