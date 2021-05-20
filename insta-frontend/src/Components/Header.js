@@ -24,11 +24,11 @@ const HeaderDiv = styled.div`
 
 const HeaderH1 = styled.h1`
     font-family: 'Pattaya', sans-serif;;
-    font-size: 3rem;
+    font-size: 4rem;
     color: #ffffff;
     font-weight: 500;
     line-height: 1.5;
-    border-bottom: 2px solid white;
+    // border-bottom: 2px solid white;
     margin-bottom: 20px;
 `;
 
@@ -36,13 +36,14 @@ const NavLinkDiv = styled.div`
     width: 50%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     align-items: center;
 `;
 
 const NavLinkItem = styled(NavLink)`
     text-decoration: none;
     text-transformation: uppercase;
+    margin-left: 20px;
     font-family: Source Sans Pro, sans-serif;
     font-size: 1.5rem;
     color: #ffffff;
