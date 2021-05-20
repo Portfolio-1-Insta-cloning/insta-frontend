@@ -111,33 +111,36 @@ const SubmitButton = styled.button`
     }
 `;
 
-const SignUpForm = () => {
+const SignUpForm = (props) => {
 
     const history = useHistory();
+    const {getUser} = props
 
-    const [SignupForm, setSignupForm] = useState([{
+    const [signupForm, setSignupForm] = useState([{
         username: "",
         password: ""
     }]);
     
     const inputchange = (e) => {
-        setSignupForm({ ...SignupForm, [e.target.name]: e.target.value });
+        setSignupForm({ ...signupForm, [e.target.name]: e.target.value });
     };
     
 
     const submitHandler = (e) => {
         e.preventDefault();
+        getUser(signupForm)
         axios
-            .post("http://localhost:5000/api/users/signup/", SignupForm)
+            .post("http://localhost:5000/api/users/signup/", signupForm)
             .then((res) => {
                 history.push('/success')
                 console.log("Response", res.data);
             })
             .catch(err => console.log("Signup error", err))
-            setSignupForm(SignupForm);
+            setSignupForm(signupForm);
     };
 
     return (
+        <>
         <SignUpWrapperDiv>
             <FormHeaderDiv>
                 <SignUpTitle>Create an Account</SignUpTitle>
@@ -150,7 +153,7 @@ const SignUpForm = () => {
                     <Input type="text"
                         name="username"
                         id="username"
-                        value = {SignupForm.username}
+                        value = {signupForm.username}
                         required
                         onChange={inputchange} />
                 </FormGroup>
@@ -160,13 +163,14 @@ const SignUpForm = () => {
                     <Input type="password"
                         name="password"
                         id="password"
-                        value = {SignupForm.password}
+                        value = {signupForm.password}
                         required
                         onChange={inputchange} />
                 </FormGroup>
                 <SubmitButton type = "submit">Signup</SubmitButton>
             </Form>
         </SignUpWrapperDiv>
+        </>
     )
 }
 

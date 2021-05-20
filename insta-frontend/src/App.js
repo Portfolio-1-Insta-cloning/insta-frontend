@@ -30,9 +30,9 @@ const App = () => {
       {/* Routes */}
       <Switch>
         <Route exact path = "/" />
-        <Route path='/signup' render={() => <SignUpForm currentUser = {currentUser} getUser = {getUser} />} />
-        <Route path='/login' render={() => <LoginForm currentUser={ currentUser } getUser={ getUser }/>}/>
-        <Route path='/success' render={() => <Success />}/>
+        <Route path='/signup' render={() => <SignUpForm getUser = {getUser} />} />
+        <Route path='/login' render={() => <LoginForm getUser={ getUser }/>}/>
+        <Route path='/success' render={() => <Success currentUser = {currentUser} />}/>
       </Switch>
       <Footer/>
     </div>
