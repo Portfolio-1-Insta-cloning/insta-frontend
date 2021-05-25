@@ -12,12 +12,14 @@ const SuccessWrapperDiv = styled.div`
 const TitleHead = styled.h1`
     font-size: 4rem;
     color: #1aa3ff;
+    font-family: 'Pattaya', sans-serif;
 `;
 
 const TitleHead2 = styled.h1`
     font-size: 4rem;
     color: #1aa3ff;
-     padding-left: 40px;
+    padding-left: 40px;
+    font-family: 'Pattaya', sans-serif;
 `;
 
 const SignUpSuccess = (props) => {

@@ -3,8 +3,6 @@ import { NavLink } from "react-router-dom";
 import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
-    margin-top: 0;
-    margin-bottom: 0;
     width: 100%;
     background-color: #1aa3ff;
     display: flex;
@@ -23,7 +21,7 @@ const HeaderDiv = styled.div`
 `;
 
 const HeaderH1 = styled.h1`
-    font-family: 'Pattaya', sans-serif;;
+    font-family: 'Pattaya', sans-serif;
     font-size: 4rem;
     color: #ffffff;
     font-weight: 500;
