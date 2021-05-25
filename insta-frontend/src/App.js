@@ -7,6 +7,9 @@ import LoginForm from "./Components/LoginForm";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Success from "./Components/Success";
+import SignUpSuccess from "./Components/SignUpSuccess";
+import Home from "./Components/Home";
+import SignUpFail from "./Components/SignUpFail";
 
 const App = () => {
 
@@ -29,10 +32,12 @@ const App = () => {
       <Header />
       {/* Routes */}
       <Switch>
-        <Route exact path = "/" />
+        <Route exact path = "/" render={()=> <Home/>} />
         <Route path='/signup' render={() => <SignUpForm getUser = {getUser} />} />
         <Route path='/login' render={() => <LoginForm getUser={ getUser }/>}/>
-        <Route path='/success' render={() => <Success currentUser = {currentUser} />}/>
+        <Route path='/success' render={() => <Success currentUser={currentUser} />} />
+        <Route path='/signupsuccess' render={() => <SignUpSuccess currentUser={currentUser} />} />
+        <Route path='/signupfail' render={() => <SignUpFail />} />
       </Switch>
       <Footer/>
     </div>
