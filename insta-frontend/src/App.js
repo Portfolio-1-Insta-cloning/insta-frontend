@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Route, Switch } from 'react-router-dom';
 
 // Components
+import './App.css';
 import SignUpForm from "./Components/SignUpForm";
 import LoginForm from "./Components/LoginForm";
 import Header from "./Components/Header";
@@ -10,6 +11,7 @@ import Success from "./Components/Success";
 import SignUpSuccess from "./Components/SignUpSuccess";
 import Home from "./Components/Home";
 import SignUpFail from "./Components/SignUpFail";
+import LoginFailed from "./Components/LoginFailed";
 
 const App = () => {
 
@@ -28,7 +30,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className = "wrapperDiv">
       <Header />
       {/* Routes */}
       <Switch>
@@ -38,6 +40,7 @@ const App = () => {
         <Route path='/success' render={() => <Success currentUser={currentUser} />} />
         <Route path='/signupsuccess' render={() => <SignUpSuccess currentUser={currentUser} />} />
         <Route path='/signupfail' render={() => <SignUpFail />} />
+        <Route path='/loginfail' render={() => <LoginFailed />} />
       </Switch>
       <Footer/>
     </div>

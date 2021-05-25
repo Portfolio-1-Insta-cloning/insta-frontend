@@ -136,7 +136,7 @@ const LoginForm = (props) => {
             })
             .catch((err) => {
                 console.log(err);
-                window.alert("Invalid Username or password")
+                history.push("/loginfail");
             })
     }
 
