@@ -134,7 +134,10 @@ const LoginForm = (props) => {
                 localStorage.setItem("token", res.data.token);
                 history.push("/success");
             })
-        .catch(err => console.log(err)) 
+            .catch((err) => {
+                console.log(err);
+                window.alert("Invalid Username or password")
+            })
     }
 
     return (
