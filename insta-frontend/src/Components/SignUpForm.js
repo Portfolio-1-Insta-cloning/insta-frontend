@@ -55,6 +55,13 @@ const FormaGroupWrapper = styled.div`
     justify-content: flex-end;
 `;
 
+const ErrorMsg = styled.span`
+    font-family: Source Sans Pro, sans-serif;
+    color: #ff0000;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+`;
+
 const FormGroup = styled.div`
     display: flex;
     flex-direction: row;
@@ -136,6 +143,8 @@ const SignUpForm = (props) => {
         password: "",
         confirmpassword: ""
     }]);
+
+    const [uniqeUserName, setUniqueUserName] = useState()
     
     // Error State for validation:
     const [errorState, setErrorState] = useState([{
@@ -189,7 +198,8 @@ const SignUpForm = (props) => {
                 history.push('/welcome')
             })
             .catch((err) => {
-                console.log("Signup error =", err.message);
+                setUniqueUserName(err.response.data.message)
+                console.log("Signup error =", err.response.data.message);
             });
             setSignupForm(signupForm);
     };
@@ -201,6 +211,7 @@ const SignUpForm = (props) => {
                 <SignUpTitle>Create an Account</SignUpTitle>
             </FormHeaderDiv>
                 <Form onSubmit={submitHandler}>
+                <ErrorMsg>{uniqeUserName}</ErrorMsg>
                 <FormaGroupWrapper>
                 <FormGroup>
                     <Label htmlFor="firstname">First Name

@@ -11,7 +11,7 @@ import Welcome from "./Components/Welcome";
 import Home from "./Components/Home";
 
 const App = () => {
-// Current user state for both signup and login:
+// Current user state for signup:
   const [currentUser, setCurrentUser] = useState({
     firstname: "",
     lastname: "",
@@ -74,7 +74,6 @@ const App = () => {
         </Route>
         <Route path='/login'>
           <LoginForm
-            getUser={getUser}
             loginFunc = {loginFunc}
             authentication={authentication} 
           />
