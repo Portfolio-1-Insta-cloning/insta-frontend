@@ -146,12 +146,10 @@ const LoginForm = (props) => {
             console.log("credential =", credentials)
             localStorage.setItem("token", res.data.token);
             authentication();
-            console.log("AUTH");
-            history.push("/success");
+            history.push("/welcome");
             })
             .catch((err) => {
                 console.log(err);
-                //history.push("/loginfail");
             })
     }
 
