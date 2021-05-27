@@ -34,17 +34,6 @@ const LogInTitle = styled.h1`
     margin-bottom: 20px;
 `;
 
-const SignUpLink = styled(Link)`
-    font-family: Source Sans Pro, sans-serif;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 2.6rem;
-    color: #0059b3;
-    &:hover{
-        color: #99d6ff;
-    } 
-`;
-
 const Form = styled.form`
     width: 60%;
     max-width: 500px;
@@ -56,6 +45,13 @@ const Form = styled.form`
     padding-bottom: 50px;
     justify-content: center;
     align-items: center;
+`;
+
+const ErrorMsg = styled.span`
+    font-family: Source Sans Pro, sans-serif;
+    color: #ff0000;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 `;
 
 const FormGroup = styled.div`
@@ -113,12 +109,15 @@ const SubmitButton = styled.button`
 const LoginForm = (props) => {
 
     const history = useHistory();
-    const { getUser, authentication, loginFunc} = props;
+    const {authentication, loginFunc} = props;
 
     const [credentials, setCredentials] = useState({
         username: "",
         password: ""
     });
+
+    // Login error state:
+    const [loginError, setLoginError] = useState();
 
     const changeHandler = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -126,14 +125,9 @@ const LoginForm = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        // getUser(credentials);
-        
         axios
         .post("http://localhost:5000/api/users/login/", credentials)
         .then((res) => {
-            console.log("login res =", res.data);
-            console.log("login FN =", res.data.firstname);
-            console.log("credential =", credentials)
             localStorage.setItem("token", res.data.token);
             authentication();
             loginFunc(res.data)
@@ -142,6 +136,8 @@ const LoginForm = (props) => {
         })
         .catch((err) => {
             console.log(err);
+            setLoginError(err.response.data.message)
+            console.log('Error Message =', err.response.data.message)
         })
     }
 
@@ -149,9 +145,9 @@ const LoginForm = (props) => {
         <LogInWrapperDiv>
             <FormHeaderDiv>
                 <LogInTitle>Login</LogInTitle>
-                <SignUpLink to = '/signup'>Create an Account</SignUpLink>
             </FormHeaderDiv>
                 <Form onSubmit={submitHandler}>
+                <ErrorMsg>{loginError}</ErrorMsg>
                 <FormGroup>
                         <Label htmlFor="username">Username<Required>*</Required></Label>
                         <Input type="text"
