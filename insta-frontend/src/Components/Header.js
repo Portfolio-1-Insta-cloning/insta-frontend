@@ -43,7 +43,7 @@ const NavLinkItem = styled(NavLink)`
     text-transformation: uppercase;
     margin-left: 20px;
     font-family: Source Sans Pro, sans-serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #ffffff;
     &:hover{
         font-weight: 600;

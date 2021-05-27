@@ -134,7 +134,8 @@ const SignUpForm = (props) => {
         email: "",
         phonenumber: "",
         username: "",
-        password: ""
+        password: "",
+        confirmpassword: ""
     }]);
     
     const inputchange = (e) => {
@@ -149,7 +150,7 @@ const SignUpForm = (props) => {
         axios
             .post("http://localhost:5000/api/users/signup/", signupForm)
             .then((res) => {
-                history.push('/signupsuccess')
+                history.push('/welcome')
                 console.log("Response", res.data);
             })
             .catch((err) => {
@@ -205,7 +206,7 @@ const SignUpForm = (props) => {
                     <Input type="tel"
                         name="phone"
                         id="phone"
-                        pattern = "[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                        // pattern = "[0-9]{3}-[0-9]{2}-[0-9]{3}"
                         value = {signupForm.phonenumber}
                         required
                         onChange={inputchange} />
@@ -227,6 +228,16 @@ const SignUpForm = (props) => {
                         name="password"
                         id="password"
                         value = {signupForm.password}
+                        required
+                        onChange={inputchange} />
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor="confirmpassword">Confirm Password
+                    <Required>*</Required></Label>
+                    <Input type="password"
+                        name="confirmpassword"
+                        id="confirmpassword"
+                        value = {signupForm.confirmpassword}
                         required
                         onChange={inputchange} />
                 </FormGroup>
