@@ -44,6 +44,20 @@ const App = () => {
   const handleLogout = () => {
     setIsAuthenticated(false)
   }
+  // Login State:
+  const [loginUser, setLoginUser] = useState([{
+    username: "",
+    password: ""
+  }]);
+  const loginFunc = (user) => {
+    const exsistingUser = {...loginUser,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      username: user.username,
+      password: user.password
+    }
+    setLoginUser(exsistingUser);
+  }
 
   return (
     <div className = "wrapperDiv">
@@ -61,10 +75,14 @@ const App = () => {
         <Route path='/login'>
           <LoginForm
             getUser={getUser}
-            authentication={authentication} />
+            loginFunc = {loginFunc}
+            authentication={authentication} 
+          />
         </Route>
         <Route path='/welcome'>
-          <Welcome currentUser={currentUser} />
+          <Welcome
+            currentUser={currentUser}
+            loginUser={loginUser}/>
         </Route>
       </Switch>
       <Footer/>

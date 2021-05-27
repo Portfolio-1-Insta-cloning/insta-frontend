@@ -152,28 +152,30 @@ const SignUpForm = (props) => {
         firstname: yup.string().required("First Name is Required"),
         lastname: yup.string().required("Last Name is Required"),
         email: yup.string().email().required("Email is Required"),
-        phonenumber: yup.object().required("Please provide your Pnone Number"),
+        phonenumber: yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid'),
+        username: yup.string().required("Username is a Mandatory field"),
         password: yup.string().required("password is required").min(8, "Password must be at least 8 character").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain uppercase and lowercase letter, a number, and may contain special characters.'),
         confirmpassword: yup.string().required("Your password should match")
     })
 
-    const validateForm = (e) => {
-        yup.reach(formSchema, e.target.name)
-            .validate(e.target.value)
-            .then((valid) => {
-                setErrorState({ ...errorState, [e.target.name]: "" });
-            })
-            .catch((err) => {
-                setErrorState({ ...errorState, [e.target.name]: err.errors[0] });
-                console.log('ErrorState', errorState)
-                console.log("ERRORSTATE =", err.errors);
-            })
-    };
+    // const validateForm = (e) => {
+    //     yup
+    //         .reach(formSchema, e.target.name)
+    //         .validate(e.target.value)
+    //         .then((valid) => {
+    //             setErrorState({ ...errorState, [e.target.name]: "" });
+    //         })
+    //         .catch((err) => {
+    //             setErrorState({ ...errorState, [e.target.name]: err.errors[0] });
+    //             console.log('ErrorState', errorState)
+    //             console.log("ERRORSTATE =", err.errors);
+    //         })
+    // };
     
     const inputchange = (e) => {
         e.persist();
         const newUser = setSignupForm({ ...signupForm, [e.target.name]: e.target.value });
-        validateForm(e)
+        // validateForm(e)
         // setSignupForm(newUser);
     };
     
@@ -184,7 +186,6 @@ const SignUpForm = (props) => {
         axios
             .post("http://localhost:5000/api/users/signup/", signupForm)
             .then((res) => {
-                console.log("Signup =", res.data)
                 history.push('/welcome')
             })
             .catch((err) => {
@@ -235,6 +236,7 @@ const SignUpForm = (props) => {
                         placeholder = "username@domain.com"        
                         required
                         onChange={inputchange} />
+                        {/* {errorState.email.length > 0 ? <p> {errorState.email}<p> : null } */}    
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="phone">Phone Number

@@ -16,9 +16,13 @@ const TitleHead = styled.h1`
 
 const Welcome = (props) => {
     console.log("Welcome", props)
+    const {currentUser, loginUser} = props
     return (
         <WelcomeWrapperDiv>
-            <TitleHead>Welcome back, { props.currentUser.firstname} !</TitleHead>
+            {currentUser.firstname ?
+                <TitleHead>Welcome, {props.currentUser.firstname} !</TitleHead> :
+                <TitleHead>Welcome back, {props.loginUser.firstname} !</TitleHead>}
+           
         </WelcomeWrapperDiv>
     )
 }
