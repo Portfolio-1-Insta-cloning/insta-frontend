@@ -113,23 +113,12 @@ const SubmitButton = styled.button`
 const LoginForm = (props) => {
 
     const history = useHistory();
-    const { getUser, authentication} = props;
+    const { getUser, authentication, loginFunc} = props;
 
     const [credentials, setCredentials] = useState({
         username: "",
         password: ""
     });
-
-    // const [userDetails, setUserDetails] = useState({
-    //     firstname: "",
-    //     // lastname: "",
-    //     // email: "",
-    //     // phonenumber: "",
-    //     // username: "",
-    //     // password: "",
-    //     // confirmpassword: ""
-    //   }
-    // )
 
     const changeHandler = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -137,7 +126,8 @@ const LoginForm = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        getUser(credentials);
+        // getUser(credentials);
+        
         axios
         .post("http://localhost:5000/api/users/login/", credentials)
         .then((res) => {
@@ -146,13 +136,13 @@ const LoginForm = (props) => {
             console.log("credential =", credentials)
             localStorage.setItem("token", res.data.token);
             authentication();
-            console.log("AUTH");
-            history.push("/success");
-            })
-            .catch((err) => {
-                console.log(err);
-                //history.push("/loginfail");
-            })
+            loginFunc(res.data)
+            console.log('Login Function', res.data)
+            history.push("/welcome");
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     return (

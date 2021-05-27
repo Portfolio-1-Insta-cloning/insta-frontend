@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link, useHistory } from 'react-router-dom';
-import axios from "axios"
+import { useHistory } from 'react-router-dom';
+import axios from "axios";
+import * as yup from "yup";
 import styled from 'styled-components';
 
 const SignUpWrapperDiv = styled.div`
@@ -32,17 +33,6 @@ const SignUpTitle = styled.h1`
     font-weight: 600;
     line-height: 1.65;
     margin-bottom: 20px;
-`;
-
-const LogInLink = styled(Link)`
-    font-family: Source Sans Pro, sans-serif;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 2.6rem;
-    color: #0059b3;
-    &:hover{
-        color: #99d6ff;
-    }
 `;
 
 const Form = styled.form`
@@ -104,6 +94,13 @@ const Input = styled.input`
     background-color: #ffffff;
 `;
 
+const Errors = styled.p`
+    color: #9bf1ff;
+    margin: 0 0 10px 0;
+    font-size: 1.6rem;
+    text-align: center;
+`;
+
 const SubmitButton = styled.button`
     border: 1px solid #ffffff;
     background-color: transparent;
@@ -123,11 +120,13 @@ const SubmitButton = styled.button`
     }
 `;
 
+
 const SignUpForm = (props) => {
-
+    
     const history = useHistory();
-    const {getUser} = props
-
+    const { getUser } = props
+    
+    // Signup State:
     const [signupForm, setSignupForm] = useState([{
         firstname: "",
         lastname: "",
@@ -138,9 +137,46 @@ const SignUpForm = (props) => {
         confirmpassword: ""
     }]);
     
+    // Error State for validation:
+    const [errorState, setErrorState] = useState([{
+        firstname: "",
+        lastname: "",
+        email: "",
+        phonenumber: "",
+        username: "",
+        password: "",
+        confirmpassword: ""
+    }]);
+    
+    const formSchema = yup.object().shape({
+        firstname: yup.string().required("First Name is Required"),
+        lastname: yup.string().required("Last Name is Required"),
+        email: yup.string().email().required("Email is Required"),
+        phonenumber: yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid'),
+        username: yup.string().required("Username is a Mandatory field"),
+        password: yup.string().required("password is required").min(8, "Password must be at least 8 character").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain uppercase and lowercase letter, a number, and may contain special characters.'),
+        confirmpassword: yup.string().required("Your password should match")
+    })
+
+    // const validateForm = (e) => {
+    //     yup
+    //         .reach(formSchema, e.target.name)
+    //         .validate(e.target.value)
+    //         .then((valid) => {
+    //             setErrorState({ ...errorState, [e.target.name]: "" });
+    //         })
+    //         .catch((err) => {
+    //             setErrorState({ ...errorState, [e.target.name]: err.errors[0] });
+    //             console.log('ErrorState', errorState)
+    //             console.log("ERRORSTATE =", err.errors);
+    //         })
+    // };
+    
     const inputchange = (e) => {
         e.persist();
-        setSignupForm({ ...signupForm, [e.target.name]: e.target.value });
+        const newUser = setSignupForm({ ...signupForm, [e.target.name]: e.target.value });
+        // validateForm(e)
+        // setSignupForm(newUser);
     };
     
 
@@ -151,13 +187,10 @@ const SignUpForm = (props) => {
             .post("http://localhost:5000/api/users/signup/", signupForm)
             .then((res) => {
                 history.push('/welcome')
-                console.log("Response", res.data);
             })
             .catch((err) => {
                 console.log("Signup error =", err.message);
-                history.push('/signupfail')
-            })
-            
+            });
             setSignupForm(signupForm);
     };
 
@@ -166,7 +199,6 @@ const SignUpForm = (props) => {
         <SignUpWrapperDiv>
             <FormHeaderDiv>
                 <SignUpTitle>Create an Account</SignUpTitle>
-                <LogInLink to = '/login'>Log In</LogInLink>
             </FormHeaderDiv>
                 <Form onSubmit={submitHandler}>
                 <FormaGroupWrapper>
@@ -177,8 +209,10 @@ const SignUpForm = (props) => {
                         name="firstname"
                         id="firstname"
                         value = {signupForm.firstname}
+                        placeholder = "First Name"
                         required
                         onChange={inputchange} />
+                        {/* {errorState.firstname.length > 0 ? <Errors> {errorState.firstname }</Errors> : null } */}
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="lastname">Last Name
@@ -186,9 +220,11 @@ const SignUpForm = (props) => {
                     <Input type="text"
                         name="lastname"
                         id="lastname"
-                        value = {signupForm.lastname}
+                        value={signupForm.lastname}
+                        placeholder = "Last Name"
                         required
                         onChange={inputchange} />
+                        {/* {errorState.lastname.length > 0 ? <p> {errorState.lastname }<p> : null } */}
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="email">E-mail
@@ -196,9 +232,11 @@ const SignUpForm = (props) => {
                     <Input type="email"
                         name="email"
                         id="email"
-                        value = {signupForm.email}
+                        value={signupForm.email}
+                        placeholder = "username@domain.com"        
                         required
                         onChange={inputchange} />
+                        {/* {errorState.email.length > 0 ? <p> {errorState.email}<p> : null } */}    
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="phone">Phone Number
@@ -206,8 +244,8 @@ const SignUpForm = (props) => {
                     <Input type="tel"
                         name="phone"
                         id="phone"
-                        // pattern = "[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                        value = {signupForm.phonenumber}
+                        value={signupForm.phonenumber}
+                        placeholder = "123-456-7890"        
                         required
                         onChange={inputchange} />
                 </FormGroup>
@@ -217,7 +255,8 @@ const SignUpForm = (props) => {
                     <Input type="text"
                         name="username"
                         id="username"
-                        value = {signupForm.username}
+                        value={signupForm.username}
+                        placeholder = "username"        
                         required
                         onChange={inputchange} />
                 </FormGroup>
@@ -227,7 +266,8 @@ const SignUpForm = (props) => {
                     <Input type="password"
                         name="password"
                         id="password"
-                        value = {signupForm.password}
+                        value={signupForm.password}
+                        placeholder = "Password"    
                         required
                         onChange={inputchange} />
                 </FormGroup>
@@ -237,7 +277,8 @@ const SignUpForm = (props) => {
                     <Input type="password"
                         name="confirmpassword"
                         id="confirmpassword"
-                        value = {signupForm.confirmpassword}
+                        value={signupForm.confirmpassword}
+                        placeholder = "Confirm Password"
                         required
                         onChange={inputchange} />
                 </FormGroup>

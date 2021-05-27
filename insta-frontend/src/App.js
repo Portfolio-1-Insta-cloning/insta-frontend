@@ -7,14 +7,11 @@ import SignUpForm from "./Components/SignUpForm";
 import LoginForm from "./Components/LoginForm";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import Success from "./Components/Success";
-import SignUpSuccess from "./Components/SignUpSuccess";
+import Welcome from "./Components/Welcome";
 import Home from "./Components/Home";
-import SignUpFail from "./Components/SignUpFail";
-import LoginFailed from "./Components/LoginFailed";
 
 const App = () => {
-
+// Current user state for both signup and login:
   const [currentUser, setCurrentUser] = useState({
     firstname: "",
     lastname: "",
@@ -25,6 +22,7 @@ const App = () => {
     confirmpassword: ""
   });
 
+  // To get current user:
   const getUser = (user) => {
     const loggedInUser = {
       ...currentUser,
@@ -33,7 +31,7 @@ const App = () => {
       username: user.username,
       password: user.password
     }
-    setCurrentUser(loggedInUser)
+    setCurrentUser(loggedInUser);
   }
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -45,6 +43,20 @@ const App = () => {
   // Logout function:
   const handleLogout = () => {
     setIsAuthenticated(false)
+  }
+  // Login State:
+  const [loginUser, setLoginUser] = useState([{
+    username: "",
+    password: ""
+  }]);
+  const loginFunc = (user) => {
+    const exsistingUser = {...loginUser,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      username: user.username,
+      password: user.password
+    }
+    setLoginUser(exsistingUser);
   }
 
   return (
@@ -63,18 +75,15 @@ const App = () => {
         <Route path='/login'>
           <LoginForm
             getUser={getUser}
-            authentication={authentication} />
+            loginFunc = {loginFunc}
+            authentication={authentication} 
+          />
         </Route>
-        <Route path='/success'>
-          <Success currentUser={currentUser} />
+        <Route path='/welcome'>
+          <Welcome
+            currentUser={currentUser}
+            loginUser={loginUser}/>
         </Route>
-        <Route path='/signupsuccess'>
-          <SignUpSuccess currentUser={currentUser} />
-        </Route>
-        <Route path='/signupfail'>
-          <SignUpFail />
-        </Route>
-        <Route path='/loginfail' render={() => <LoginFailed />} />
       </Switch>
       <Footer/>
     </div>
