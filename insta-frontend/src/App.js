@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch, NavLink } from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 
 // Components
 import './App.css';
@@ -12,7 +12,6 @@ import SignUpSuccess from "./Components/SignUpSuccess";
 import Home from "./Components/Home";
 import SignUpFail from "./Components/SignUpFail";
 import LoginFailed from "./Components/LoginFailed";
-import Navigation from "./Components/Navigation";
 
 const App = () => {
 
@@ -50,8 +49,9 @@ const App = () => {
 
   return (
     <div className = "wrapperDiv">
-      {/* <Header /> */}
-      {isAuthenticated ? (<NavLink to="/" onClick = {handleLogout}>Logout</NavLink>) : <Navigation />}
+      <Header
+        isAuthenticated={isAuthenticated}
+        handleLogout={ handleLogout }/>
       {/* Routes */}
       <Switch>
         <Route exact path="/">
