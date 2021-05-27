@@ -43,7 +43,7 @@ const NavLinkItem = styled(NavLink)`
     text-transformation: uppercase;
     margin-left: 20px;
     font-family: Source Sans Pro, sans-serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #ffffff;
     &:hover{
         font-weight: 600;
@@ -54,15 +54,20 @@ const NavLinkItem = styled(NavLink)`
     }
 `;
 
-const Header = () => {
+const Header = (props) => {
+    const {isAuthenticated, handleLogout} = props
     return (
         <HeaderWrapper>
             <HeaderDiv>
                 <HeaderH1>Welcome to my App!</HeaderH1>
                 <NavLinkDiv>
-                    <NavLinkItem to = '/'>Home</NavLinkItem>
-                    <NavLinkItem to = '/signup'>Sign Up</NavLinkItem>
-                    <NavLinkItem to = '/login'>Log In</NavLinkItem>
+                    {isAuthenticated ? (<NavLinkItem to="/" onClick={handleLogout}>Logout</NavLinkItem>) :
+                    <>
+                        <NavLinkItem to='/'>Home</NavLinkItem>
+                        <NavLinkItem to = '/signup'>Sign Up</NavLinkItem>
+                        <NavLinkItem to='/login'>Log In</NavLinkItem>
+                    </>
+                    }
                 </NavLinkDiv>
             </HeaderDiv>
         </HeaderWrapper>

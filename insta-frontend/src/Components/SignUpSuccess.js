@@ -26,7 +26,7 @@ const SignUpSuccess = (props) => {
     console.log("signup success =",props)
     return (
         <SuccessWrapperDiv>
-            <TitleHead>Hi { props.currentUser.username},</TitleHead>
+            <TitleHead>Hi { props.currentUser.firstname},</TitleHead>
             <TitleHead2>Welcome to our Community.</TitleHead2>
         </SuccessWrapperDiv>
     )

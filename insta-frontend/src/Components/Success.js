@@ -15,6 +15,7 @@ const TitleHead = styled.h1`
 
 
 const Success = (props) => {
+    console.log("Success", props)
     return (
         <SuccessWrapperDiv>
             <TitleHead>Welcome back, { props.currentUser.username} !</TitleHead>

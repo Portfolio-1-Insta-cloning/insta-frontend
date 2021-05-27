@@ -113,12 +113,23 @@ const SubmitButton = styled.button`
 const LoginForm = (props) => {
 
     const history = useHistory();
-    const { getUser } = props;
+    const { getUser, authentication} = props;
 
     const [credentials, setCredentials] = useState({
         username: "",
         password: ""
     });
+
+    // const [userDetails, setUserDetails] = useState({
+    //     firstname: "",
+    //     // lastname: "",
+    //     // email: "",
+    //     // phonenumber: "",
+    //     // username: "",
+    //     // password: "",
+    //     // confirmpassword: ""
+    //   }
+    // )
 
     const changeHandler = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -128,15 +139,19 @@ const LoginForm = (props) => {
         e.preventDefault();
         getUser(credentials);
         axios
-            .post("http://localhost:5000/api/users/login/", credentials)
-            .then((res) => {
-                console.log("login res =", res.data.message);
-                localStorage.setItem("token", res.data.token);
-                history.push("/success");
+        .post("http://localhost:5000/api/users/login/", credentials)
+        .then((res) => {
+            console.log("login res =", res.data);
+            console.log("login FN =", res.data.firstname);
+            console.log("credential =", credentials)
+            localStorage.setItem("token", res.data.token);
+            authentication();
+            console.log("AUTH");
+            history.push("/success");
             })
             .catch((err) => {
                 console.log(err);
-                history.push("/loginfail");
+                //history.push("/loginfail");
             })
     }
 
@@ -147,7 +162,7 @@ const LoginForm = (props) => {
                 <SignUpLink to = '/signup'>Create an Account</SignUpLink>
             </FormHeaderDiv>
                 <Form onSubmit={submitHandler}>
-                    <FormGroup>
+                <FormGroup>
                         <Label htmlFor="username">Username<Required>*</Required></Label>
                         <Input type="text"
                         name="username"
